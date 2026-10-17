@@ -4,7 +4,7 @@ Activité pratique « LLM & Écosystème » : Groupe 3, filière P1 IA.
 
 Assistant capable de répondre en français à des questions sur un corpus de documents publics, en **citant les passages utilisés**, puis d'**évaluer** la qualité de ses réponses (fidélité au corpus, pertinence des passages retrouvés).
 
-**Membres du groupe** : <Adama Sarr>, <Maimouna Diallo>, <Fallou Mbaye>, <Fatou Fall>, <Atou Diagne>
+**Membres du groupe** : Adama Sarr, Maimouna Diallo, Fallou Mbaye, Fatou Fall, Atou Diagne
 
 ## Sommaire
 1. [Fonctionnalités](#fonctionnalités)
