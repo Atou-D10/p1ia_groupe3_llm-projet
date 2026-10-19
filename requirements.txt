@@ -1,8 +1,6 @@
-requests>=2.31
 python-dotenv>=1.0
 sentence-transformers>=2.7
 chromadb>=0.5
 groq>=0.9
 pandas>=2.0
-pypdf>=4.0
-beautifulsoup4>=4.12
+pymupdf>=1.24
