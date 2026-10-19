@@ -23,3 +23,13 @@ def keep_law_only(text):
     start = text.index(START_MARKER)
     end = text.index(END_MARKER)
     return text[start:end]
+
+# Ce code permet d'extraire le texte brut du PDF et de l'écrire dans un fichier texte, pour que les étapes suivantes puissent s'en servir.
+def main():
+    text = keep_law_only(extract_text(PDF_PATH))
+    RAW_TEXT_PATH.write_text(text, encoding="utf-8")
+    print(f"{len(text)} caractères écrits dans {RAW_TEXT_PATH}")
+
+
+if __name__ == "__main__":
+    main()
