@@ -12,6 +12,11 @@ from src.config import (CHUNK_MAX_CHARS, CHUNK_OVERLAP, CHUNKS_PATH,
 # 1. Nettoyage
 # ----------------------------------------------------------------------
 
+# Fragments après un trait d'union de fin de ligne qui doivent GARDER le trait d'union
+# (ex. « ceux-ci », « main-d'œuvre », « peut-il »).
+HYPHEN_KEEP = (r"(?:d'|l'|qu'|ci\b|là\b|il\b|ils\b|elle\b|elles\b|on\b|t-|"
+               r"même|nous\b|vous\b|je\b|tu\b|delà\b)")
+
 
 def clean(text):
     # numéros de page (ligne de 4 chiffres), en-tête du JO répété, date répétée
@@ -24,4 +29,7 @@ def clean(text):
     # espaces et lignes vides
     text = re.sub(r"[ \t]+", " ", text)
     text = re.sub(r"\n{3,}", "\n\n", text)
+    # mots coupés en fin de ligne : « syn-\ndicale » -> « syndicale »
+    text = re.sub(r"(?<=[A-Za-zÀ-ÿ])-\n(?=" + HYPHEN_KEEP + ")", "-", text)
+    text = re.sub(r"(?<=[A-Za-zÀ-ÿ])-\n(?=[a-zàâäéèêëîïôöûùüç])", "", text)
     return text.strip()
