@@ -110,3 +110,28 @@ def parse_articles(text):
     for a in articles:
         a["corps"] = join_lines(a.pop("lines"))
     return articles
+
+
+# ----------------------------------------------------------------------
+# 3. Découpage en chunks
+# ----------------------------------------------------------------------
+def split_text(text, max_chars, overlap):
+    """Coupe un long texte vers la fin d'une phrase, avec chevauchement."""
+    if len(text) <= max_chars:
+        return [text]
+    pieces, start = [], 0
+    while start < len(text):
+        end = min(start + max_chars, len(text))
+        if end < len(text):
+            cut = max(text.rfind(". ", start, end), text.rfind("\n", start, end),
+                      text.rfind("; ", start, end))
+            if cut > start + max_chars // 2:
+                end = cut + 1
+        pieces.append(text[start:end].strip())
+        if end >= len(text):
+            break
+        start = max(end - overlap, start + 1)
+        space = text.find(" ", start, end)   # repartir au début d'un mot
+        if space != -1:
+            start = space + 1
+    return pieces
