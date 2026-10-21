@@ -52,6 +52,24 @@ RE_CHAPITRE = re.compile(r"^Chapitre\s+[^.]{1,25}\.\s+-\s+")
 RE_SECTION = re.compile(r"^(?:Section|Sous-section)\s+[^.]{1,25}\.\s+-\s+")
 
 
+def join_lines(lines):
+    """Recolle les lignes visuelles du PDF en paragraphes ; garde les listes à tirets."""
+    out, new_par = [], False
+    for line in lines:
+        if line == "-":
+            new_par = True
+            continue
+        if new_par or line.startswith("- "):
+            line = "- " + line.lstrip("- ")
+            out.append("\n" + line)
+        elif out:
+            out.append(" " + line)
+        else:
+            out.append(line)
+        new_par = False
+    return "".join(out).strip()
+
+
 def parse_articles(text):
     """Retourne la liste des articles : numéro, intitulé, lignes, titre/chapitre/section."""
     lines = text.split("\n")
@@ -89,4 +107,6 @@ def parse_articles(text):
                 articles.append(cur)
             elif cur is not None:
                 cur["lines"].append(line)
+    for a in articles:
+        a["corps"] = join_lines(a.pop("lines"))
     return articles
