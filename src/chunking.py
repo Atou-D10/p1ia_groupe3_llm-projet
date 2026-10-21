@@ -33,3 +33,27 @@ def clean(text):
     text = re.sub(r"(?<=[A-Za-zÀ-ÿ])-\n(?=" + HYPHEN_KEEP + ")", "-", text)
     text = re.sub(r"(?<=[A-Za-zÀ-ÿ])-\n(?=[a-zàâäéèêëîïôöûùüç])", "", text)
     return text.strip()
+
+
+# ----------------------------------------------------------------------
+# 2. Détection des articles
+# ----------------------------------------------------------------------
+# Accepte « Article 12. - », « Article 109 - » (sans point) et « Art. 49. - ».
+RE_ARTICLE = re.compile(r"^Art(?:icle|\.)\s+(premier|\d+)\.?\s+-\s+(.*)$")
+
+
+def parse_articles(text):
+    """Retourne la liste des articles : numéro, intitulé, lignes de texte."""
+    articles, cur = [], None
+    for line in text.split("\n"):
+        line = line.strip()
+        if not line:
+            continue
+        m = RE_ARTICLE.match(line)
+        if m:
+            num = 1 if m.group(1) == "premier" else int(m.group(1))
+            cur = {"num": num, "intitule": m.group(2).strip(), "lines": []}
+            articles.append(cur)
+        elif cur is not None:
+            cur["lines"].append(line)
+    return articles
