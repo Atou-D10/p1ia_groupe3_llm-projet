@@ -159,3 +159,32 @@ def build_chunks(articles):
                 "article": a["num"],
             })
     return chunks
+
+
+# ----------------------------------------------------------------------
+# 4. Programme principal
+# ----------------------------------------------------------------------
+def main():
+    """Enchaîne tout le traitement : nettoyage, détection des articles, découpage,
+    puis écrit les chunks dans data/processed/chunks.jsonl (une ligne JSON par chunk).
+    Affiche un contrôle : nombre d'articles, articles manquants, longueur des chunks.
+    """
+    text = clean(RAW_TEXT_PATH.read_text(encoding="utf-8"))
+    articles = parse_articles(text)
+    chunks = build_chunks(articles)
+
+    with open(CHUNKS_PATH, "w", encoding="utf-8") as f:
+        for c in chunks:
+            f.write(json.dumps(c, ensure_ascii=False) + "\n")
+
+    numeros = [a["num"] for a in articles]
+    manquants = sorted(set(range(1, max(numeros) + 1)) - set(numeros))
+    longueurs = [len(c["texte"]) for c in chunks]
+    print(f"{len(articles)} articles détectés (attendu : 462), manquants : {manquants or 'aucun'}")
+    print(f"{len(chunks)} chunks écrits dans {CHUNKS_PATH}")
+    print(f"longueur des chunks : min {min(longueurs)}, "
+          f"moyenne {sum(longueurs) // len(longueurs)}, max {max(longueurs)}")
+
+
+if __name__ == "__main__":
+    main()
