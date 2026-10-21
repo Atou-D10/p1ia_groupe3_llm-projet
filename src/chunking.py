@@ -135,3 +135,27 @@ def split_text(text, max_chars, overlap):
         if space != -1:
             start = space + 1
     return pieces
+
+
+def build_chunks(articles):
+    """Transforme les articles en chunks au format partagé par le groupe.
+
+    Chaque chunk contient : id, texte (contexte + intitulé + extrait de l'article),
+    titre, source et numéro d'article. Les articles longs sont scindés en plusieurs
+    chunks ; le contexte (Titre > Chapitre > Section) est répété dans chacun.
+    """
+    chunks = []
+    for a in articles:
+        contexte = " > ".join(x for x in (a["titre"], a["chapitre"], a["section"]) if x)
+        en_tete = f"Article {a['num']}. - {a['intitule']}"
+        morceaux = split_text(a["corps"], CHUNK_MAX_CHARS, CHUNK_OVERLAP)
+        for k, morceau in enumerate(morceaux, start=1):
+            suffixe = f" (partie {k}/{len(morceaux)})" if len(morceaux) > 1 else ""
+            chunks.append({
+                "id": f"art-{a['num']:03d}" + (f"-{k}" if len(morceaux) > 1 else ""),
+                "texte": f"{contexte}\n{en_tete}{suffixe}\n{morceau}",
+                "titre": f"Article {a['num']} - {a['intitule']}",
+                "source": f"{SOURCE_LABEL}, article {a['num']}",
+                "article": a["num"],
+            })
+    return chunks
