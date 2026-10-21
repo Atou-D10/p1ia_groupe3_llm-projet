@@ -42,18 +42,51 @@ def clean(text):
 RE_ARTICLE = re.compile(r"^Art(?:icle|\.)\s+(premier|\d+)\.?\s+-\s+(.*)$")
 
 
+# ----------------------------------------------------------------------
+# 2. Détection des articles et de la hiérarchie (Titre > Chapitre > Section)
+# ----------------------------------------------------------------------
+# Accepte « Article 12. - », « Article 109 - » (sans point) et « Art. 49. - ».
+RE_ARTICLE = re.compile(r"^Art(?:icle|\.)\s+(premier|\d+)\.?\s+-\s+(.*)$")
+RE_TITRE = re.compile(r"^TITRE\s+\S+\.\s+-\s+")
+RE_CHAPITRE = re.compile(r"^Chapitre\s+[^.]{1,25}\.\s+-\s+")
+RE_SECTION = re.compile(r"^(?:Section|Sous-section)\s+[^.]{1,25}\.\s+-\s+")
+
+
 def parse_articles(text):
-    """Retourne la liste des articles : numéro, intitulé, lignes de texte."""
+    """Retourne la liste des articles : numéro, intitulé, lignes, titre/chapitre/section."""
+    lines = text.split("\n")
     articles, cur = [], None
-    for line in text.split("\n"):
-        line = line.strip()
+    titre = chapitre = section = ""
+    i = 0
+    while i < len(lines):
+        line = lines[i].strip()
+        i += 1
         if not line:
             continue
-        m = RE_ARTICLE.match(line)
-        if m:
-            num = 1 if m.group(1) == "premier" else int(m.group(1))
-            cur = {"num": num, "intitule": m.group(2).strip(), "lines": []}
-            articles.append(cur)
-        elif cur is not None:
-            cur["lines"].append(line)
+
+        if RE_TITRE.match(line):
+            # l'intitulé du titre est en majuscules et peut tenir sur plusieurs lignes
+            while i < len(lines) and lines[i].strip() and lines[i].strip().isupper():
+                line += " " + lines[i].strip()
+                i += 1
+            titre, chapitre, section, cur = line, "", "", None
+        elif RE_CHAPITRE.match(line) or RE_SECTION.match(line):
+            # une ligne qui commence par une minuscule prolonge l'intitulé
+            while i < len(lines) and lines[i].strip() and lines[i].strip()[0].islower():
+                line += " " + lines[i].strip()
+                i += 1
+            if RE_CHAPITRE.match(line):
+                chapitre, section = line, ""
+            else:
+                section = line
+            cur = None
+        else:
+            m = RE_ARTICLE.match(line)
+            if m:
+                num = 1 if m.group(1) == "premier" else int(m.group(1))
+                cur = {"num": num, "intitule": m.group(2).strip(), "lines": [],
+                       "titre": titre, "chapitre": chapitre, "section": section}
+                articles.append(cur)
+            elif cur is not None:
+                cur["lines"].append(line)
     return articles
