@@ -140,22 +140,19 @@ p1ia_groupe3_llm-projet/
 
 ### Formats de données partagés
 
-- **Chunk** (une ligne JSON dans `data/processed/chunks.jsonl`) :
-  `{"id": "...", "texte": "...", "titre": "...", "source": "<url ou fichier>"}`
-- **Question d'évaluation** (une ligne JSON dans `data/eval/questions.jsonl`) :
-  `{"question": "...", "reference": "...", "source_attendue": "...", "type": "factuelle|comparaison|hors_corpus|piege"}`
-- **Collection vectorielle** : `ml_fr` <À ADAPTER si renommée dans `config.py`>
+  `{"id": "art-277-1", "texte": "...", "titre": "Article 277 - Congé de maternité", "source": "Loi n° 2026-18 ..., article 277", "article": 277}`
+- **Passage renvoyé par `retrieve(question, k)`** (`src/retrieve.py`) : le même format, plus `"score"` (similarité cosinus, 1 = identique), trié du plus au moins pertinent.
+- **Collection vectorielle** : `code_travail` (dans `chroma_db/`, créée par `python -m src.index`)
 
 ## Choix techniques
 
 | Composant | Choix | Justification |
 |---|---|---|
-| Embeddings | <À COMPLÉTER : ex. `paraphrase-multilingual-MiniLM-L12-v2`> | <ex. multilingue, léger, gratuit, tourne sur CPU> |
-| Base vectorielle | <À COMPLÉTER : ex. ChromaDB> | <ex. locale, aucune installation serveur> |
+| Embeddings | `intfloat/multilingual-e5-small` | Multilingue, gratuit, tourne sur CPU. Lit 512 tokens : 0 chunk tronqué, contre 75 % avec MiniLM (128 tokens). Sur 13 questions de test : hit@4 = 1,00 contre 0,77 pour MiniLM |
+| Base vectorielle | ChromaDB (locale, dossier `chroma_db/`, distance cosinus) | Installation par pip, aucun serveur, enregistrée sur disque, garde les métadonnées (titre, source, article). Recherche en environ 30 ms |
 | LLM | <À COMPLÉTER : ex. Llama 3.3 70B via Groq> | <ex. open source, bon en français, API gratuite, function calling> |
 | Découpage | <taille> caractères, chevauchement <valeur> | <À COMPLÉTER> |
-| Observabilité | <À COMPLÉTER> | <À COMPLÉTER> |
-
+| Observabilité | Traces JSON Lines maison (`logs/traces.jsonl`) | Aucun service externe : une ligne par question avec la durée de chaque étape, les tokens et le coût. A permis de trouver deux problèmes de latence |
 ## Évaluation
 
 - **Jeu de test** : <20> questions dans `data/eval/questions.jsonl`, avec réponse de référence rédigée à partir du corpus avant de lancer le système. Types : factuelles, comparaisons, hors corpus, pièges.
@@ -171,8 +168,14 @@ Le détail question par question est dans `reports/eval_results.csv`. L'analyse 
 <À COMPLÉTER : fonction(s) exposée(s) au modèle, exemple de question qui la déclenche>
 
 ### Observabilité
-<À COMPLÉTER : outil utilisé, informations tracées, exemple de ligne de `logs/traces.jsonl`, latences et coûts moyens observés>
+Outil maison : la classe `Tracer` de `src/observability.py` écrit une ligne JSON par question dans `logs/traces.jsonl`. Elle contient la date, la question, la durée de chaque étape en ms, les tokens d'entrée et de sortie, le coût estimé, les modèles utilisés et les passages retrouvés (id et score).
 
+Exemple de ligne (test sans LLM, `python -m src.observability`) :
+```json
+{"date": "2026-10-24T13:42:59+00:00", "question": "Combien de semaines dure le congé de maternité ?", "etapes_ms": {"chargement_modele": 2114.7, "recherche": 156.4}, "total_ms": 2271.1, "tokens_entree": 0, "tokens_sortie": 0, "cout_usd": 0.0, "note_cout": "niveau gratuit Groq : 0 $ ; les embeddings tournent en local (gratuit)", "modele_embeddings": "intfloat/multilingual-e5-small", "passages": [{"id": "art-280", "score": 0.8842}, {"id": "art-277-1", "score": 0.8751}, "..."]}
+```
+
+Latences mesurées (PC sans carte graphique) : indexation des 524 chunks environ 40 s (une seule fois), chargement du modèle environ 2 s (une fois par lancement), recherche environ 30 ms par question. Coût : 0 $ (embeddings en local, niveau gratuit de Groq). Détails : `reports/section_partie2_embeddings.md`.
 ### Garde-fous
 <À COMPLÉTER : cas gérés (hors sujet, injection de prompt, données personnelles), comportement du système, exemples testés>
 

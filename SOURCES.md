@@ -25,6 +25,21 @@ La liste automatique des documents du corpus est dans `data/sources.csv`
 - PyMuPDF : extraction du texte du PDF (version : 1.28.2)
 - Python 3.12, bibliothèques standard `re` et `json`
 
-## Modèles et outils des autres parties
+### Partie 2 : embeddings, base vectorielle, observabilité
 
-<À COMPLÉTER par les parties 2 à 5 : modèle d'embeddings, base vectorielle, LLM, outil d'observabilité>
+| Outil | Rôle | Licence | Lien |
+|---|---|---|---|
+| intfloat/multilingual-e5-small | modèle d'embeddings (384 dimensions, 512 tokens max) | MIT | https://huggingface.co/intfloat/multilingual-e5-small |
+| sentence-transformers | calcul des embeddings en local | Apache 2.0 | https://www.sbert.net |
+| ChromaDB | base vectorielle locale | Apache 2.0 | https://www.trychroma.com |
+| sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2 | modèle comparé (non retenu, tronque à 128 tokens) | Apache 2.0 | https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2 |
+| Traces maison (`src/observability.py`) | observabilité : une ligne JSON par requête dans `logs/traces.jsonl` | — | — |
+
+Référence : Wang et al., *Multilingual E5 Text Embeddings: A Technical Report*, 2024, arXiv:2402.05672.
+
+
+## Modèles et outils des autres parties
+<À COMPLÉTER par les parties 3 à 5 : LLM, function calling, garde-fous>
+
+
+
