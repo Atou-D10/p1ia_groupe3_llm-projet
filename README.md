@@ -140,8 +140,11 @@ p1ia_groupe3_llm-projet/
 
 ### Formats de données partagés
 
+- **Chunk** (une ligne JSON dans `data/processed/chunks.jsonl`) :
   `{"id": "art-277-1", "texte": "...", "titre": "Article 277 - Congé de maternité", "source": "Loi n° 2026-18 ..., article 277", "article": 277}`
 - **Passage renvoyé par `retrieve(question, k)`** (`src/retrieve.py`) : le même format, plus `"score"` (similarité cosinus, 1 = identique), trié du plus au moins pertinent.
+- **Question d'évaluation** (une ligne JSON dans `data/eval/questions.jsonl`) :
+  `{"question": "...", "reference": "...", "source_attendue": "...", "type": "factuelle|comparaison|hors_corpus|piege"}`
 - **Collection vectorielle** : `code_travail` (dans `chroma_db/`, créée par `python -m src.index`)
 
 ## Choix techniques
@@ -153,6 +156,7 @@ p1ia_groupe3_llm-projet/
 | LLM | <À COMPLÉTER : ex. Llama 3.3 70B via Groq> | <ex. open source, bon en français, API gratuite, function calling> |
 | Découpage | <taille> caractères, chevauchement <valeur> | <À COMPLÉTER> |
 | Observabilité | Traces JSON Lines maison (`logs/traces.jsonl`) | Aucun service externe : une ligne par question avec la durée de chaque étape, les tokens et le coût. A permis de trouver deux problèmes de latence |
+
 ## Évaluation
 
 - **Jeu de test** : <20> questions dans `data/eval/questions.jsonl`, avec réponse de référence rédigée à partir du corpus avant de lancer le système. Types : factuelles, comparaisons, hors corpus, pièges.
@@ -176,6 +180,7 @@ Exemple de ligne (test sans LLM, `python -m src.observability`) :
 ```
 
 Latences mesurées (PC sans carte graphique) : indexation des 524 chunks environ 40 s (une seule fois), chargement du modèle environ 2 s (une fois par lancement), recherche environ 30 ms par question. Coût : 0 $ (embeddings en local, niveau gratuit de Groq). Détails : `reports/section_partie2_embeddings.md`.
+
 ### Garde-fous
 <À COMPLÉTER : cas gérés (hors sujet, injection de prompt, données personnelles), comportement du système, exemples testés>
 
