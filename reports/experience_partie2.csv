@@ -1,0 +1,33 @@
+modele,question,type,article_attendu,rang,top1_article,top1_score
+sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2,Quelle est la durée légale du travail par semaine ?,proche,241,2,246,0.7573
+sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2,À partir de quel âge un enfant peut-il être employé ?,proche,281,1,281,0.7117
+sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2,Combien de jours de congé payé gagne-t-on par mois de travail ?,proche,249,9,253,0.7422
+sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2,Combien de semaines dure le congé de maternité ?,proche,277,1,277,0.7032
+sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2,Le repos hebdomadaire est-il obligatoire ?,proche,246,1,246,0.759
+sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2,Quelle est la durée maximale d'un contrat à durée déterminée ?,proche,100,1,100,0.7664
+sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2,Mon patron peut-il me renvoyer pendant mon congé de maternité ?,reformulée,277,7,3,0.5601
+sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2,"Si je travaille plus de 40 heures, est-ce que je dois être payé plus ?",reformulée,244,2,199,0.6133
+sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2,Une femme qui attend un bébé peut-elle quitter son travail du jour au lendemain ?,reformulée,278,5,280,0.6653
+sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2,Mon employeur peut-il me payer seulement tous les deux mois ?,reformulée,199,1,199,0.6467
+sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2,Comment mon patron doit-il m'annoncer mon licenciement ?,reformulée,149,3,172,0.6215
+sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2,Puis-je être puni pour avoir dénoncé le harcèlement de mon chef ?,reformulée,20,1,20,0.6474
+sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2,Combien de temps une entreprise peut-elle mettre ses employés au chômage technique ?,reformulée,123,1,123,0.734
+sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2,Comment préparer un thiéboudienne ?,hors corpus,,,306,0.2923
+sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2,Quel est le prix d'un billet d'avion Dakar-Paris ?,hors corpus,,,263,0.3034
+sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2,Qui a gagné la Coupe d'Afrique des nations 2022 ?,hors corpus,,,28,0.4186
+intfloat/multilingual-e5-small,Quelle est la durée légale du travail par semaine ?,proche,241,1,241,0.8806
+intfloat/multilingual-e5-small,À partir de quel âge un enfant peut-il être employé ?,proche,281,1,281,0.8818
+intfloat/multilingual-e5-small,Combien de jours de congé payé gagne-t-on par mois de travail ?,proche,249,1,249,0.8639
+intfloat/multilingual-e5-small,Combien de semaines dure le congé de maternité ?,proche,277,2,280,0.8842
+intfloat/multilingual-e5-small,Le repos hebdomadaire est-il obligatoire ?,proche,246,1,246,0.9079
+intfloat/multilingual-e5-small,Quelle est la durée maximale d'un contrat à durée déterminée ?,proche,100,1,100,0.8865
+intfloat/multilingual-e5-small,Mon patron peut-il me renvoyer pendant mon congé de maternité ?,reformulée,277,2,280,0.8773
+intfloat/multilingual-e5-small,"Si je travaille plus de 40 heures, est-ce que je dois être payé plus ?",reformulée,244,1,244,0.8676
+intfloat/multilingual-e5-small,Une femme qui attend un bébé peut-elle quitter son travail du jour au lendemain ?,reformulée,278,3,275,0.884
+intfloat/multilingual-e5-small,Mon employeur peut-il me payer seulement tous les deux mois ?,reformulée,199,1,199,0.8672
+intfloat/multilingual-e5-small,Comment mon patron doit-il m'annoncer mon licenciement ?,reformulée,149,1,149,0.8759
+intfloat/multilingual-e5-small,Puis-je être puni pour avoir dénoncé le harcèlement de mon chef ?,reformulée,20,4,454,0.8645
+intfloat/multilingual-e5-small,Combien de temps une entreprise peut-elle mettre ses employés au chômage technique ?,reformulée,123,1,123,0.8832
+intfloat/multilingual-e5-small,Comment préparer un thiéboudienne ?,hors corpus,,,306,0.8138
+intfloat/multilingual-e5-small,Quel est le prix d'un billet d'avion Dakar-Paris ?,hors corpus,,,445,0.7985
+intfloat/multilingual-e5-small,Qui a gagné la Coupe d'Afrique des nations 2022 ?,hors corpus,,,456,0.7541
