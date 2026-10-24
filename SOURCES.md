@@ -38,8 +38,24 @@ La liste automatique des documents du corpus est dans `data/sources.csv`
 Référence : Wang et al., *Multilingual E5 Text Embeddings: A Technical Report*, 2024, arXiv:2402.05672.
 
 
+### Partie 3 : pipeline RAG et démo
+
+| Outil | Rôle | Licence | Lien |
+|---|---|---|---|
+| openai/gpt-oss-120b | LLM qui rédige les réponses à partir des passages (température 0, réflexion courte `reasoning_effort="low"`) | Apache 2.0 | https://huggingface.co/openai/gpt-oss-120b |
+| Groq (API, niveau gratuit) | hébergement et exécution du LLM ; coût 0 $ | conditions d'utilisation de Groq | https://console.groq.com/docs/models |
+| groq (paquet Python) | client pour appeler l'API Groq depuis `src/pipeline.py` | Apache 2.0 | https://github.com/groq/groq-python |
+| meta-llama/llama-3.3-70b-versatile | modèle prévu au départ (non retenu : retiré par Groq, erreur 404 le 24/10/2026) | Llama 3.3 Community License | https://console.groq.com/docs/models |
+| PyTorch, version CPU | calculs du modèle d'embeddings ; version « processeur seul » installée pour éviter le plantage CUDA sous Linux | BSD-3 | https://download.pytorch.org/whl/cpu |
+| Interface maison (`src/cli.py`) | démo en ligne de commande | — | — |
+
+Références :
+- Liste des modèles disponibles obtenue par l'API Groq (`client.models.list()`), 24 octobre 2026.
+- OpenAI, *gpt-oss-120b & gpt-oss-20b Model Card*, août 2025.
+- Lewis et al., *Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks*, 2020, arXiv:2005.11401.
+
 ## Modèles et outils des autres parties
-<À COMPLÉTER par les parties 3 à 5 : LLM, function calling, garde-fous>
+<À COMPLÉTER par les parties 4 à 5 : LLM, function calling, garde-fous>
 
 
 
