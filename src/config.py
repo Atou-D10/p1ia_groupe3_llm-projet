@@ -33,8 +33,16 @@ CHUNK_OVERLAP = 150      # chevauchement entre deux chunks d'un même article
 
 # --- Parties 2 à 5 (à ajuster par les personnes concernées) ------------
 COLLECTION_NAME = "code_travail"
-EMBED_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+
+# Partie 2 : e5-small lit 512 tokens (0 chunk tronqué) au lieu de 128 pour
+# paraphrase-multilingual-MiniLM-L12-v2 (393 chunks sur 524 tronqués).
+# Il attend les préfixes "query: " / "passage: " (gérés dans src/index.py).
+EMBED_MODEL = "intfloat/multilingual-e5-small"
+
 TOP_K = int(os.getenv("TOP_K", "4"))
 MIN_SCORE = float(os.getenv("MIN_SCORE", "0.25"))
+
+# --- Parties 3 à 5 (à ajuster par les personnes concernées) ------------
+
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 LLM_MODEL = os.getenv("LLM_MODEL", "llama-3.3-70b-versatile")
