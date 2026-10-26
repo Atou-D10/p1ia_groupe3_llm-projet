@@ -32,7 +32,7 @@ Assistant capable de répondre en français à des questions sur un corpus de do
 
 ## Corpus
 
-- **Choix** : <À COMPLÉTER : type de documents et pourquoi ce corpus>
+- **Choix** : texte juridique officiel, la loi n° 2026-18 du 3 septembre 2026 portant Code du Travail (Journal officiel du Sénégal n° 7931). Le texte est public et en français, et structuré en 462 articles numérotés : cette structure permet un découpage naturel (un chunk par article) et des citations précises. Ses règles (délais, durées, conditions, sanctions) permettent d'écrire des questions de test dont la réponse est vérifiable. La loi abroge le Code de 1997 : un modèle de langage peut avoir appris l'ancien texte, ce qui en fait un bon test de fidélité au corpus.
 - **Langue** : français
 - **Volume** : <nombre de documents> documents, <nombre de chunks> chunks
 - **Licences** : voir [`SOURCES.md`](SOURCES.md) et `data/sources.csv`
