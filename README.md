@@ -1,4 +1,4 @@
-# p1ia_groupe3_llm-projet : Assistant RAG sur <À COMPLÉTER : thème du corpus>
+# p1ia_groupe3_llm-projet : Assistant RAG sur le code du travail 
 
 Activité pratique « LLM & Écosystème » : Groupe 3, filière P1 IA.
 
