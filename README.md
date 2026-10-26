@@ -154,7 +154,7 @@ p1ia_groupe3_llm-projet/
 | Embeddings | `intfloat/multilingual-e5-small` | Multilingue, gratuit, tourne sur CPU. Lit 512 tokens : 0 chunk tronqué, contre 75 % avec MiniLM (128 tokens). Sur 13 questions de test : hit@4 = 1,00 contre 0,77 pour MiniLM |
 | Base vectorielle | ChromaDB (locale, dossier `chroma_db/`, distance cosinus) | Installation par pip, aucun serveur, enregistrée sur disque, garde les métadonnées (titre, source, article). Recherche en environ 30 ms |
 | LLM | <À COMPLÉTER : ex. Llama 3.3 70B via Groq> | <ex. open source, bon en français, API gratuite, function calling> |
-| Découpage | <taille> caractères, chevauchement <valeur> | <À COMPLÉTER> |
+| Découpage | Un chunk par article ; articles de plus de 1 200 caractères scindés, avec 150 caractères de chevauchement | Un article est une unité de sens complète et permet de citer « l'article N ». La coupe se fait à la fin d'une phrase ou d'une puce, et le chevauchement évite de couper une information à la jonction. Le contexte (Titre > Chapitre > Section) est répété dans chaque chunk. Valeurs réglables dans `src/config.py` (`CHUNK_MAX_CHARS`, `CHUNK_OVERLAP`). |
 | Observabilité | Traces JSON Lines maison (`logs/traces.jsonl`) | Aucun service externe : une ligne par question avec la durée de chaque étape, les tokens et le coût. A permis de trouver deux problèmes de latence |
 
 ## Évaluation
